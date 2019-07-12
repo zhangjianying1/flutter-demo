@@ -3,6 +3,7 @@ import 'package:flutter_app/services/MySize.dart';
 import 'package:flutter_app/services/colors.dart';
 import 'package:flutter_app/utils/request.dart';
 import 'package:flutter_app/widgets/article-list.dart';
+import 'package:flutter_app/widgets/news-list.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 class HomePage extends StatefulWidget{
   @override
@@ -49,7 +50,7 @@ class _HomPageState extends State<HomePage> with TickerProviderStateMixin{
             body: TabBarView(
                 controller: _tabController,
                 children: _tabs.isEmpty ? [] : _tabs.map((res){
-                  return ArticleList(documentClassSerial: res['documentClassSerial'].toString());
+                  return NewsList();
                 }).toList()
             )
         ),
@@ -60,6 +61,7 @@ class _HomPageState extends State<HomePage> with TickerProviderStateMixin{
     super.initState();
     _tabController = new TabController(length: _tabs.length, vsync: this);
     getDocuemtnClassList().then((res){
+      if (res.isEmpty) return;
       _tabs = res;
       _tabController = new TabController(length: _tabs.length, vsync: this);
       setState(() {
