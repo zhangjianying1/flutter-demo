@@ -4,11 +4,12 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/services/colors.dart';
+import 'package:flutter_app/view/article.dart';
 import 'package:flutter_app/widgets/toast.dart';
 import 'nedesScrollview.dart';
 import 'splash.dart';
 import 'login.dart';
-import 'customScrollView.dart';
+import 'package:flutter_app/view/news.dart';
 import 'view/home.dart';
 import 'view/my.dart';
 
@@ -42,13 +43,11 @@ class NamedRouter{
   }
 
   static initRoutes() {
-    routes = {
+    return {
       '/': (context) => new Splash(),
       '/main': (context) => new MainPage(),
-      '/login': (context) => new LoginPage(),
-      '/scroll': (context) => new CustomScrollPage()
+      '/login': (context) => new LoginPage()
     };
-    return routes;
   }
 }
 class MainPage extends StatefulWidget {
@@ -60,7 +59,7 @@ class _MainPageState extends State<MainPage>  {
   bool showTop = false;
   static int _tabIndex = 0;
   static final List<Widget> _children = <Widget>[
-    HomePage(), MyPage(), CustomScrollPage(), NedScrollView()
+    HomePage(), NewsPage(), NedScrollView(), MyPage()
   ];
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
   @override

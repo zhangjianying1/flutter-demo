@@ -9,7 +9,6 @@ class MyPage extends StatefulWidget{
 class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin{
   static const String routeName = '/material/tabs';
   static double _opacityNum = 0.0;
-  static var _myTabs = ['社会','公积金','保险','医疗'];
   Animation<double> animation;
   AnimationController controller;
   @override
@@ -127,7 +126,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin{
     return Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: MySize.s_14),
-        height: 120,
+        height: 140,
         decoration:  BoxDecoration(
             gradient: LinearGradient(colors: [Color(0xFF02a7a9), Color(0xFF2bb6a1), ],
                 begin: Alignment.topCenter, end: Alignment.bottomCenter)
@@ -139,12 +138,9 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin{
               children: <Widget>[
                 Container(
                   width: 80,
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    margin: EdgeInsets.only(right: MySize.s_14, left: MySize.s_8),
-                    child: ClipOval(child: Image.asset('images/4.jpg', fit: BoxFit.cover,)),
-                  ),
+                  height: 80,
+                  margin: EdgeInsets.only(right: MySize.s_14, left: MySize.s_8),
+                  child: ClipOval(child: Image.asset('images/4.jpg', fit: BoxFit.cover,)),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,

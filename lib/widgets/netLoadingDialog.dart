@@ -35,7 +35,6 @@ class _LoadingDialog extends State<NetLoadingDialog> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(

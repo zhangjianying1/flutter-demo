@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/colors.dart';
 import 'package:flutter_app/services/newsServices.dart';
+import 'package:flutter_app/view/article.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 //产品列表
 class ArticleList extends StatefulWidget {
@@ -44,8 +45,7 @@ class _ArticleListState extends State<ArticleList>
       'pageNum': pageNum,
       'pageSize': 10,
     };
-    print(sendData);
-    NewsServices.getFollowDocumentList(context, sendData).then((res){
+    NewsServices.of(context).getFollowDocumentList(sendData).then((res){
       if (res.isEmpty) {
         loadState = 3;
       } else if (res['pagination']['totalItems'] <= pageNum * 10) {
@@ -59,7 +59,6 @@ class _ArticleListState extends State<ArticleList>
       }
     });
   }
-
   Widget _widget_more(){
     List<Widget> list= new List();
     if(loadState==1){
@@ -75,6 +74,9 @@ class _ArticleListState extends State<ArticleList>
       list.add(GestureDetector(
         child: new Text('加载失败，请点击重试'),
         onTap: (){
+          setState(() {
+            loadState = 0;
+          });
           _getMoreEvent();
         },
       ));
@@ -99,13 +101,13 @@ class _ArticleListState extends State<ArticleList>
         builder: (BuildContext context) {
           return NotificationListener<ScrollEndNotification>( // or  OverscrollNotification
               onNotification: (ScrollEndNotification  scroll){
-                if(scroll.metrics.pixels==scroll.metrics.maxScrollExtent){ // Scroll End
-                  print("我监听到我滑到底部了${documentClassSerial}");
+                if(scroll.metrics.pixels==scroll.metrics.maxScrollExtent){ // Scrol
                   if (documentClassSerial == widget.curDocumentClassSerial)
                   _getMoreEvent();
                 }
               },
               child: CustomScrollView(
+//                key: PageStorageKey<String>(),
                 slivers: <Widget>[
                   SliverOverlapInjector(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -115,7 +117,7 @@ class _ArticleListState extends State<ArticleList>
                     crossAxisCount: 4,
                     mainAxisSpacing: 2.0,
                     crossAxisSpacing: 2.0,
-                    itemBuilder: (context, index) => new GoodItem(articleList[index]),
+                    itemBuilder: (context, index) => new GoodItem(context, articleList[index]),
                     staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
                   ),
                   _widget_more(),
@@ -128,30 +130,42 @@ class _ArticleListState extends State<ArticleList>
   }
 }
 class GoodItem extends StatelessWidget {
-  const GoodItem(this.data);
+  const GoodItem(this.context, this.data);
   final Map data;
+  final BuildContext context;
   Widget _widget_item_card() {
     return new Card(
-      child: new Column(
-        children: <Widget>[
-          new Hero(
-              tag:'list-info${data['id']}',
-              child: data['image'].isNotEmpty ? Image.network(data['image']) : Text(''),// 图片引用
-          ),
-          new Padding(
-            padding: const EdgeInsets.all(5),
-            child: new Column(
+      child: GestureDetector(
+        onTap: (){
+          print(data['id']);
+          Navigator.of(context).push(new MaterialPageRoute(builder:(context){
+            return new ArticlePage(id: data['id']);
+          }));
+        },
+        child: new Column(
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
               children: <Widget>[
-                new Text(
-                    data['title'],
-                    maxLines: 2, // 元固定数据为2行 index%3+1 是为了做瀑布流高低错落效果
-                    overflow: TextOverflow.ellipsis,
-                    style: new TextStyle(color: MyColors.gray, fontSize: 16)),
+                data['image'].isNotEmpty ? Image.network(data['image']) : Text('')
+                ,data['type'] == 2 ? Image.asset('images/playvideo.png', width: 36, height: 36,) : Text('')
               ],
             ),
-          )
-        ],
-      ),
+            new Padding(
+              padding: const EdgeInsets.all(5),
+              child: new Column(
+                children: <Widget>[
+                  new Text(
+                      data['title'],
+                      maxLines: 2, // 元固定数据为2行 index%3+1 是为了做瀑布流高低错落效果
+                      overflow: TextOverflow.ellipsis,
+                      style: new TextStyle(color: MyColors.gray, fontSize: 16)),
+                ],
+              ),
+            )
+          ],
+        ),
+      )
     );
   }
   @override

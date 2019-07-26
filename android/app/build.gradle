@@ -30,12 +30,24 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs{
+        myConfig {
+            storeFile file("calc.keystore")
+            storePassword "tx.calc"
+            keyAlias "calc"
+            keyPassword "tx.calc"
+        }
+    }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.myConfig
+            }
         }
     }
 }

@@ -112,11 +112,14 @@ dart:isolate-patch/isolate_patch.dart 173:5            _RawReceivePortImpl._hand
 ## flutter doctor
 
 ```
-[✓] Flutter (Channel master, v1.7.5-pre.21, on Microsoft Windows [Version 10.0.17763.557], locale zh-CN)
+[!] Flutter (Channel master, v1.7.5-pre.21, on Microsoft Windows [Version 10.0.17763.615], locale zh-CN)
     • Flutter version 1.7.5-pre.21 at D:\Program Files\flutter
-    • Framework revision 217890685b (2 weeks ago), 2019-06-18 00:07:55 -0400
+    • Framework revision 217890685b (4 weeks ago), 2019-06-18 00:07:55 -0400
     • Engine revision 20d3861ac8
     • Dart version 2.4.0
+    ✗ Downloaded executables cannot execute on host.
+      See https://github.com/flutter/flutter/issues/6207 for more information
+
 
 [✓] Android toolchain - develop for Android devices (Android SDK version 28.0.3)
     • Android SDK at D:/eclipse-android-sdk/android-sdk-windows
@@ -140,5 +143,5 @@ dart:isolate-patch/isolate_patch.dart 173:5            _RawReceivePortImpl._hand
 [✓] Connected device (1 available)
     • vivo Y66 • b9eede44 • android-arm • Android 6.0.1 (API 23)
 
-! Doctor found issues in 1 category.
+! Doctor found issues in 2 categories.
 ```

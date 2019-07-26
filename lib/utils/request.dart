@@ -37,7 +37,7 @@ class Request{
           if ( response.data['code'] == '000000') {
             body = response.data['data'];
           } else {
-            body = response.data;
+            body = response.data??{};
           }
         } else {
           Toast.show(context, '网络错误');
@@ -54,6 +54,7 @@ class Request{
         Toast.show(context, msg??'网络连接失败');
       }
     }
+
     return body??{};
   }
   dynamic get(BuildContext context, String url, [Map<String, dynamic> data, Map<String, dynamic> options]) async{
